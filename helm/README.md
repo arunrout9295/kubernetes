@@ -103,7 +103,7 @@ Run:
 helm install dev-apache apache-helm -n dev-apache --create-namespace
 ```
 
-![Helm Architecture](screenshots\install_apache_helm.jpg)
+![Helm Architecture](screenshots/install_apache_helm.jpg)
 
 Common cmd to verify dev apche is running or not:
 ```
