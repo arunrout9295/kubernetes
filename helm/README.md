@@ -128,7 +128,7 @@ helm rollback dev-apache 1 -n dev-apache
 To Delete the apache-helm package
 Run:
 ```
-helm uninstall dev-apache
+helm uninstall dev-apache -n dev-apache
 ```
 ## Artrifcat hub URL
 ```
