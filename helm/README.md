@@ -60,9 +60,9 @@ cd apache-helm
 Observed 4 files created
 chart.yaml, charts, templates, values.yaml
 
-![Helm Architecture](screenshots\helm_architecture.jpg)
-![Helm Architecture](screenshots\tree.jpg)
-![Helm Architecture](screenshots\templates.jpg)
+![Helm Architecture](screenshots/helm_architecture.jpg)
+![Helm Architecture](screenshots/tree.jpg)
+![Helm Architecture](screenshots/templates.jpg)
 
 ### 1. Service.yaml
 
