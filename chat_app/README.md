@@ -128,8 +128,8 @@ kubectl get namespaces
 ### 🚀 Step 3: Backend Deployment
 Create a file named backend-deployment.yml
 ```
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: backend-deployment
   namespace: chat-app
@@ -140,14 +140,19 @@ spec:
       app: backend
   template:
     metadata:
+      name: backend-pod
+      namespace: chat-app
       labels:
         app: backend
     spec:
       containers:
-        - name: chatapp-backend
-          image: arunrout9295/chat_app-backend:latest
-          ports:
-            - containerPort: 8000
+      - name: chatapp-backend
+        image: arunrout9295/chat_app-backend:latest
+        ports: 
+        - containerPort: 8000
+        env:
+        - name: MONGO_URL
+          value: "mongodb://root:root@mongo-service:27017/chatdb?authSource=admin"
 ```
 Apply the deployment:
 ```
@@ -261,3 +266,57 @@ Bound
 
 3️⃣ MongoDB Deployment
 Create mongo-deployment.yml:
+```
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mongodb-deployment
+  namespace: chat-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      name: mongodb-pod
+      namespace: chat-app
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: chatapp-mongo
+        image: mongo:6 
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: root
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: root
+      volumes:
+      - name: mongo-data
+        persistentVolumeClaim:
+          claimName: mongodb-pvc
+```
+Apply:
+```
+kubectl apply -f mongodb-deployment.yml
+```
+Verify:
+```
+kubectl get pvc -n mongodb-service.yml
+```
+Exec into the MongoDB pod:
+```
+kubectl exec -it mongodb-deployment-84b459469d-zf7g8 -n chat-app -- mongosh -u root -p root --authenticationDatabase admin
+```
+
+```
+use chatdb
+show collections
+db.messages.find().pretty()
+```
+
+
+

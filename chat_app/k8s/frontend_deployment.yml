@@ -5,8 +5,8 @@ metadata:
   namespace: chat-app
 spec:
   replicas: 1
-  matchLabels:
-    selector:
+  selector:
+    matchLabels:
       app: frontend
   template:
     metadata:
@@ -17,7 +17,7 @@ spec:
     
     spec:
       containers:
-      - name: chatapp_frontend
+      - name: chatapp-frontend
         image: arunrout9295/chat_app-frontend:latest
         ports:
         - containerPort: 5173

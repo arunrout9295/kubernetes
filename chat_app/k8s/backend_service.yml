@@ -10,4 +10,5 @@ spec:
     - protocol: TCP
       port: 8000        # Service port
       targetPort: 8000  # Container port
-  type: ClusterIP
+      nodePort: 30008   # Exposes the service externally(avoids port-forward) &  type: ClusterIP before apply kubectl port-forward
+  type: NodePort
