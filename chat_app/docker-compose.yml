@@ -1,22 +1,65 @@
 
+# version: "3.9"
+# services:
+#   backend:
+#     build: ./backend
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - mongo
+
+#   frontend:
+#     build: ./frontend
+#     ports:
+#       - "5173:5173"
+#     depends_on:
+#       - backend
+
+
+#   mongo:
+#     image: mongo:6
+#     ports:
+#       - "27017:27017"
+
+
 version: "3.9"
+
 services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: >
+        bash -c "mongosh --username root --password root --authenticationDatabase admin --eval 'db.adminCommand(\"ping\")' || exit 1"
+      # test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')", "-u", "root", "-p", "root", "--authenticationDatabase", "admin"]
+      interval: 5s
+      retries: 5
+
   backend:
     build: ./backend
+    container_name: backend
     ports:
       - "8000:8000"
+    environment:
+      MONGO_URL: mongodb://root:root@mongo:27017/chatdb?authSource=admin
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
+    container_name: frontend
     ports:
       - "5173:5173"
     depends_on:
       - backend
 
-
-  mongo:
-    image: mongo:6
-    ports:
-      - "27017:27017"
+volumes:
+  mongo_data:
