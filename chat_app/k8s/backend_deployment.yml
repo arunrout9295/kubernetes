@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend-deployment
+  namespace: chat-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      name: backend-pod
+      namespace: chat-app
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: chatapp-backend
+        image: arunrout9295/chat_app-backend:latest
+        ports: 
+        - containerPort: 8000
+
+
+  
