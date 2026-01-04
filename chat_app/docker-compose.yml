@@ -1,27 +1,3 @@
-
-# version: "3.9"
-# services:
-#   backend:
-#     build: ./backend
-#     ports:
-#       - "8000:8000"
-#     depends_on:
-#       - mongo
-
-#   frontend:
-#     build: ./frontend
-#     ports:
-#       - "5173:5173"
-#     depends_on:
-#       - backend
-
-
-#   mongo:
-#     image: mongo:6
-#     ports:
-#       - "27017:27017"
-
-
 version: "3.9"
 
 services:
@@ -38,7 +14,6 @@ services:
     healthcheck:
       test: >
         bash -c "mongosh --username root --password root --authenticationDatabase admin --eval 'db.adminCommand(\"ping\")' || exit 1"
-      # test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')", "-u", "root", "-p", "root", "--authenticationDatabase", "admin"]
       interval: 5s
       retries: 5
 

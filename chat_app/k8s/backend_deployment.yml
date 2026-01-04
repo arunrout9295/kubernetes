@@ -20,6 +20,9 @@ spec:
         image: arunrout9295/chat_app-backend:latest
         ports: 
         - containerPort: 8000
+        env:
+        - name: MONGO_URL
+          value: "mongodb://root:root@mongo-service:27017/chatdb?authSource=admin"
 
 
   
